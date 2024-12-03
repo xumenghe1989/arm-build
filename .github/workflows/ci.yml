@@ -1,0 +1,60 @@
+name: Build ARM Flash Image
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-arm-image:
+    # 使用原生 ARM64 架构的 runner
+    runs-on: ubuntu-22.04
+    container: arm64v8/ubuntu:22.04
+
+    steps:
+      # 检出代码
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 设置编译环境
+      - name: Set up Build Environment
+        run: |
+          apt-get update
+          apt-get install -y \
+            debootstrap dosfstools e2fsprogs \
+            squashfs-tools xz-utils mtools parted git-core
+
+      # 准备 debootstrap 和脚本
+      - name: Prepare Environment Variables
+        run: |
+          export ROOTFS_DIR="${{ github.workspace }}/rootfs"
+          export CURRENT_DIR="${{ github.workspace }}"
+          export VK_ARCH="arm64"
+          export VK_SUITE="focal"
+          export VK_MIRROR="http://ports.ubuntu.com/ubuntu-ports"
+          mkdir -p $ROOTFS_DIR
+
+      # 执行根文件系统制作脚本
+      - name: Build Root Filesystem
+        run: |
+          chmod +x ./function.sh
+          source ./function.sh
+          do_rootfs
+
+      # 执行镜像制作脚本
+      - name: Build Flashable Image
+        run: |
+          chmod +x ./function.sh
+          source ./function.sh
+          do_img_rpi4b
+
+      # 上传构建结果
+      - name: Upload Image Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: flash-image
+          path: |
+            $ROOTFS_DIR.img
+            $ROOTFS_DIR.img.xz
+            $ROOTFS_DIR.img.xz.md5
