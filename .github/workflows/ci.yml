@@ -48,8 +48,8 @@ jobs:
       # 执行根文件系统制作脚本
       - name: Build Root Filesystem
         run: |
-          chmod +x ./function.sh
-          source ./function.sh
+          chmod +x ./okbuild.sh
+          source ./okbuild.sh
           do_rootfs
 
       # 执行镜像制作脚本
