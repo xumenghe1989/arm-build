@@ -55,8 +55,8 @@ jobs:
       # 执行镜像制作脚本
       - name: Build Flashable Image
         run: |
-          chmod +x ./function.sh
-          source ./function.sh
+          chmod +x ./okbuild.sh
+          source ./okbuild.sh
           do_img_rpi4b
 
       # 上传构建结果
