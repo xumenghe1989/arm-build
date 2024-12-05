@@ -28,6 +28,12 @@ jobs:
           sudo apt-get install -y \
             debootstrap dosfstools e2fsprogs \
             squashfs-tools xz-utils mtools parted git-core
+       # 克隆目标仓库
+      - name: Clone arm-build Repository
+        run: |
+          git clone https://github.com/xumenghe1989/arm-build.git
+          cd arm-build
+          ls -l
 
       # 准备 debootstrap 和脚本
       - name: Prepare Environment Variables
