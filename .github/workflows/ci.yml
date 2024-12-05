@@ -10,7 +10,7 @@ jobs:
   build-arm-image:
     # 使用原生 ARM64 架构的 runner
     runs-on: Ubuntu 24.04
-    #container: arm64v8/ubuntu:22.04
+    container: arm64v8/ubuntu:24.04
 
     steps:
       # 检出代码
