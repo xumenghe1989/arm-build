@@ -45,19 +45,11 @@ jobs:
           export VK_MIRROR="http://ports.ubuntu.com/ubuntu-ports"
           mkdir -p $ROOTFS_DIR
 
-      # 执行根文件系统制作脚本
-      - name: Build Root Filesystem
-        run: |
-          chmod +x ./okbuild.sh
-          source ./okbuild.sh
-          do_rootfs
-
       # 执行镜像制作脚本
       - name: Build Flashable Image
         run: |
           chmod +x ./okbuild.sh
-          source ./okbuild.sh
-          do_img_rpi4b
+          ./okbuild.sh prop_rpi4b
 
       # 上传构建结果
       - name: Upload Image Artifact
