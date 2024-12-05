@@ -24,8 +24,8 @@ jobs:
       # 设置编译环境
       - name: Set up Build Environment
         run: |
-          apt-get update
-          apt-get install -y \
+          sudo apt-get update
+          sudo apt-get install -y \
             debootstrap dosfstools e2fsprogs \
             squashfs-tools xz-utils mtools parted git-core
 
